@@ -15,3 +15,27 @@ impl <'a> Config<'a> {
         Ok(Config { query, file_path, ignore_case })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn should_build_correctly() {
+        env::set_var("IGNORE_CASE", "1");
+        let args = vec!["1".to_string(), "2".to_string(), "3".to_string()];
+        let config = Config::build(&args);
+        let result = config.unwrap();
+        assert_eq!(result.query, "2");
+        assert_eq!(result.file_path, "3");
+        assert!(result.ignore_case)
+    }
+
+    #[test]
+    #[should_panic(expected = "not enough arguments")]
+    fn should_panic() {
+        let args = vec!["1".to_string(), "2".to_string()];
+        let config = Config::build(&args);
+        config.unwrap();
+    }
+
+}

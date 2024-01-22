@@ -1,6 +1,6 @@
 use std::env;
 use std::process;
-use::minigrep::config;
+use::minigrep::{run, config};
 fn main() {
     let args: Vec<String> = env::args().collect();
     let config = config::Config::build(&args).unwrap_or_else(|err| {
